@@ -1,0 +1,22 @@
+version: '3'
+services:
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 80:8080
+    depends_on:
+      - db
+    links:
+      - "db:db"
+
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_DB=animal
+      - POSTGRES_USER=maria
+      - POSTGRES_HOST_AUTH_METHOD=trust
+      # - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - ./db/sql:/docker-entrypoint-initdb.d
+      # - ./db/data_dump:/var/lib/postgresql/data:rw
